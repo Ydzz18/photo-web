@@ -1,0 +1,2 @@
+ALTER TABLE `users` ADD COLUMN `birthday` DATE DEFAULT NULL AFTER `location`;
+ALTER TABLE `users` ADD COLUMN `address` VARCHAR(255) DEFAULT NULL AFTER `birthday`;

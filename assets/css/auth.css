@@ -1,0 +1,393 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #667eea;
+    margin-bottom: 30px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.logo span {
+    color: #764ba2;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.error-message {
+    color: #e74c3c;
+    background: #fdf2f2;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #fecaca;
+}
+
+.error-list {
+    text-align: left;
+    margin: 10px 0;
+}
+
+.error-list li {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.submit-btn {
+    background: #667eea;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: #5a6fd8;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.back-btn {
+    background: #e0e0e0;
+    color: #333;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    flex: 1;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-btn:hover {
+    background: #d0d0d0;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-actions .submit-btn {
+    flex: 1;
+}
+
+/* Login Styles */
+.login-container {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.login-title {
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.login-footer {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
+}
+
+.login-footer a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Form Row for Multi-Column Layouts */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+/* Register Styles */
+.register-container {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.register-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.progress-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+    gap: 15px;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+.step.active {
+    opacity: 1;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e0e0e0;
+    color: #999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.step.active .step-number {
+    background: #667eea;
+    color: white;
+}
+
+.step-label {
+    font-size: 12px;
+    color: #999;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.step.active .step-label {
+    color: #667eea;
+}
+
+.step-line {
+    width: 60px;
+    height: 3px;
+    background: #e0e0e0;
+    transition: background 0.3s ease;
+}
+
+.step-line.active {
+    background: #667eea;
+}
+
+.register-footer {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
+}
+
+.register-footer a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Password Strength Indicator */
+.password-strength-meter {
+    width: 100%;
+    height: 6px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    margin: 8px 0;
+    overflow: hidden;
+}
+
+.password-strength-bar {
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease, background-color 0.3s ease;
+    border-radius: 4px;
+}
+
+.password-strength-bar.weak {
+    background-color: #e74c3c;
+}
+
+.password-strength-bar.fair {
+    background-color: #f39c12;
+}
+
+.password-strength-bar.good {
+    background-color: #3498db;
+}
+
+.password-strength-bar.strong {
+    background-color: #27ae60;
+}
+
+.password-strength-text {
+    font-size: 12px;
+    font-weight: 600;
+    margin: 4px 0 0 0;
+}
+
+.password-strength-text.weak {
+    color: #e74c3c;
+}
+
+.password-strength-text.fair {
+    color: #f39c12;
+}
+
+.password-strength-text.good {
+    color: #3498db;
+}
+
+.password-strength-text.strong {
+    color: #27ae60;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .register-container {
+        max-width: 100%;
+        padding: 30px 20px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .progress-indicator {
+        gap: 10px;
+        margin-bottom: 30px;
+    }
+
+    .step-number {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+
+    .step-line {
+        width: 40px;
+    }
+
+    .step-label {
+        font-size: 11px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .back-btn,
+    .form-actions .submit-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .register-container,
+    .login-container {
+        padding: 25px 15px;
+        max-width: 100%;
+        border-radius: 15px;
+    }
+
+    .register-title,
+    .login-title {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .form-group input {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .submit-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .form-group label {
+        font-size: 13px;
+    }
+}

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="placeholderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e0e0e0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f5f5f5;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#placeholderGradient)"/>
+  <g transform="translate(200, 140)">
+    <circle cx="0" cy="-30" r="25" fill="#ccc"/>
+    <path d="M -40 20 Q -40 0 -20 0 L 20 0 Q 40 0 40 20 L 40 80 Q 40 100 20 100 L -20 100 Q -40 100 -40 80 Z" fill="#ccc"/>
+  </g>
+  <text x="200" y="320" font-size="20" font-family="Arial, sans-serif" fill="#999" text-anchor="middle">Image Not Found</text>
+</svg>
