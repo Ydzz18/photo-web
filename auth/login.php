@@ -4,6 +4,8 @@ session_start();
 // Include database connection
 require_once '../db_connect.php';
 require_once '../settings.php';
+require_once '../config/EmailService.php';
+require_once '../config/TwoFactorAuthService.php';
 
 $settings = new SiteSettings();
 $site_name = $settings->get('site_name', 'LensCraft');
@@ -31,31 +33,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 
                 // Verify password
                 if (password_verify($password, $user['password'])) {
-                    // Login successful - Set session
-                    $_SESSION['user_id'] = $user['id'];
-                    $_SESSION['username'] = $user['username'];
-                    $_SESSION['email'] = $user['email'];
+                    // Check if 2FA is enabled
+                    $twoFA = new TwoFactorAuthService($pdo);
                     
-                    // Try to log the action (but don't fail if logger doesn't work)
-                    try {
-                        require_once '../logger.php';
-                        $logger = new UserLogger($pdo);
-                        $logger->log(
-                            UserLogger::ACTION_LOGIN,
-                            "User '{$user['username']}' logged in successfully",
-                            $user['id'],
-                            null,
-                            'users',
-                            $user['id'],
-                            UserLogger::STATUS_SUCCESS
-                        );
-                    } catch (Exception $e) {
-                        error_log("Logger error: " . $e->getMessage());
+                    if ($twoFA->is2FAEnabled($user['id'])) {
+                        // Generate and send 2FA code
+                        try {
+                            $code = $twoFA->generateCode($user['id']);
+                            $emailService = new EmailService();
+                            
+                            if ($emailService->send2FACode($user['email'], $user['username'], $code)) {
+                                // Store user ID temporarily for 2FA verification
+                                $_SESSION['pending_2fa_user_id'] = $user['id'];
+                                $_SESSION['pending_2fa_email'] = $user['email'];
+                                
+                                // Redirect to 2FA verification page
+                                header("Location: ../verify-2fa.php");
+                                exit();
+                            } else {
+                                $error = "Failed to send 2FA code. Please try again.";
+                                error_log("2FA Email Error: " . $emailService->getLastError());
+                            }
+                        } catch (Exception $e) {
+                            $error = "An error occurred during 2FA. Please try again.";
+                            error_log("2FA Error: " . $e->getMessage());
+                        }
+                    } else {
+                        // Login successful without 2FA - Set session
+                        $_SESSION['user_id'] = $user['id'];
+                        $_SESSION['username'] = $user['username'];
+                        $_SESSION['email'] = $user['email'];
+                        
+                        // Try to log the action (but don't fail if logger doesn't work)
+                        try {
+                            require_once '../logger.php';
+                            $logger = new UserLogger($pdo);
+                            $logger->log(
+                                UserLogger::ACTION_LOGIN,
+                                "User '{$user['username']}' logged in successfully",
+                                $user['id'],
+                                null,
+                                'users',
+                                $user['id'],
+                                UserLogger::STATUS_SUCCESS
+                            );
+                        } catch (Exception $e) {
+                            error_log("Logger error: " . $e->getMessage());
+                        }
+                        
+                        // Redirect to home page
+                        header("Location: ../home.php");
+                        exit();
                     }
-                    
-                    // Redirect to home page
-                    header("Location: ../home.php");
-                    exit();
                 } else {
                     $error = "Invalid email or password.";
                     
@@ -135,6 +164,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
+                <p style="text-align: center; margin-top: 20px;">
+                    <a href="forgot-password.php" style="color: #667eea; text-decoration: none;">Forgot your password?</a>
+                </p>
             </div>
             
             <button type="submit" class="submit-btn">Sign In</button>
