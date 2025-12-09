@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2025 at 03:02 PM
+-- Generation Time: Dec 09, 2025 at 02:04 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,7 +42,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `username`, `email`, `password`, `is_super_admin`, `created_at`, `last_login`) VALUES
-(1, 'admin', 'admin@lenscraft.com', '$2y$10$gSo0XLzUqSHhKi0keuT.AOxciQ.q69F4U96G7zf/Ri6oBXloIjxsq', 1, '2025-11-27 11:29:49', '2025-12-08 20:57:50'),
+(1, 'admin', 'admin@lenscraft.com', '$2y$10$gSo0XLzUqSHhKi0keuT.AOxciQ.q69F4U96G7zf/Ri6oBXloIjxsq', 1, '2025-11-27 11:29:49', '2025-12-09 15:48:55'),
 (2, 'Ren', 'villegascarenetol@gmail.com', '$2y$10$bZEjhAhX/9QVSsNKH8q9R.FJKzp.Uk660gTWB3XEEbzZZqFLhDbdC', 0, '2025-11-27 02:00:43', '2025-11-27 02:08:19'),
 (3, 'villaneza11', 'angeliedelacruzdingding@gmail.com', '$2y$10$Jkf5Wb/Z9LngmoJijjalne9mR9idq9Kg3C6KH36tH8/9jiukA7z0m', 0, '2025-11-27 02:01:43', '2025-11-27 20:17:05');
 
@@ -94,6 +94,28 @@ CREATE TABLE `contact_messages` (
   `is_read` tinyint(1) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `email_confirmations`
+--
+
+CREATE TABLE `email_confirmations` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `expires_at` timestamp NULL DEFAULT NULL,
+  `confirmed_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `email_confirmations`
+--
+
+INSERT INTO `email_confirmations` (`id`, `user_id`, `token`, `created_at`, `expires_at`, `confirmed_at`) VALUES
+(2, 11, '645be11d185714a05a22d2695cdd2cc7f2032afd6e636760441e6516a3b34109', '2025-12-09 07:50:33', '2025-12-10 07:50:33', '2025-12-09 07:51:54');
 
 -- --------------------------------------------------------
 
@@ -186,6 +208,21 @@ INSERT INTO `notifications` (`id`, `user_id`, `type`, `title`, `message`, `relat
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `expires_at` timestamp NULL DEFAULT NULL,
+  `used_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `photos`
 --
 
@@ -213,6 +250,19 @@ INSERT INTO `photos` (`id`, `user_id`, `title`, `description`, `image_path`, `up
 (9, 5, '#GGSS', 'Si ate kim nag pic', '69282381ddaff_1764238209.jpg', '2025-11-27 02:10:09'),
 (10, 8, 'gain-eagers', 'opo', '6930f27bcb30e_1764815483.jpg', '2025-12-03 18:31:23'),
 (12, 7, 'Wala', '1', '6936bd79a0035_1765195129.jpg', '2025-12-08 19:58:49');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `two_factor_auth`
+--
+
+CREATE TABLE `two_factor_auth` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `code` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -246,23 +296,26 @@ CREATE TABLE `users` (
   `address` varchar(255) DEFAULT NULL,
   `is_admin` tinyint(1) DEFAULT 0,
   `created_at` datetime DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `email_verified` tinyint(1) DEFAULT 0,
+  `two_fa_enabled` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `bio`, `profile_picture`, `profile_pic`, `followers_count`, `following_count`, `photos_count`, `cover_photo`, `instagram`, `twitter`, `facebook`, `website`, `is_profile_public`, `show_email`, `first_name`, `last_name`, `phone`, `location`, `birthday`, `address`, `is_admin`, `created_at`, `updated_at`) VALUES
-(1, 'photomaster', 'john@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, 0, 0, 2, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-11-27 11:29:49', '2025-12-08 12:23:30'),
-(2, 'naturelover', 'jane@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, 0, 0, 2, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-11-27 11:29:49', '2025-12-08 12:20:43'),
-(3, 'streetphotographer', 'mike@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, 0, 0, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-11-27 11:29:49', '2025-12-08 12:23:30'),
-(4, 'kim', 'royroyquimado@gmail.com', '$2y$10$t5ku73QwP7H9TzkMzJsZAOsvV5JDp9Hsf4NNELCfOHZ8nhhiirPtu', NULL, NULL, NULL, 0, 0, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-11-27 01:44:37', '2025-12-08 11:26:47'),
-(5, 'villaneza11', 'angeliedelacruzdingding@gmail.com', '$2y$10$W57wPZHVwvMGV5dGR0gowecbCFAdE7vpCrSxQh0915JZ2IoMjZx7.', NULL, NULL, NULL, 0, 0, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-11-27 01:57:47', '2025-12-08 11:26:47'),
-(6, 'Ren', 'villegascarenetol@gmail.com', '$2y$10$XqsMS/k24.7FVsY4Wh1H4.t4oKD.eFiJFoYDbHrcOsa7Thtbo6hwq', NULL, NULL, NULL, 0, 0, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-11-27 01:59:39', '2025-12-08 11:26:47'),
-(7, 'Ydzz', 'yayenydrian@gmail.com', '$2y$10$OCK36NVMd4htMEzxPTsLH.7ASy.VSwMGC.ysexToiJyHlksuvX.4C', 'pogi', 'profile_7_1765181232.jpg', 'profile_7_1765181232.jpg', 1, 0, 1, 'cover_7_1765184088.jpg', NULL, NULL, NULL, NULL, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-11-27 02:24:29', '2025-12-08 12:42:58'),
-(8, 'ratfucker', 'ratfucker@gmail.com', '$2y$10$ahOl2uAmewe7sUdo52Uw4.c2jo6yz2lJoY8K3IsH2jwnmLZUzyINi', NULL, NULL, NULL, 0, 0, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-12-03 18:29:50', '2025-12-08 12:24:14'),
-(9, 'admin', 'admin@lenscraft.com', '$2y$10$nbMeIoq0IkUNeVOcTD.VFOfBiJLuyBsoW6FxAFN1MHuwYyN3AIcFK', NULL, NULL, NULL, 0, 1, 0, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-12-08 20:25:23', '2025-12-08 12:42:58');
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `bio`, `profile_picture`, `profile_pic`, `followers_count`, `following_count`, `photos_count`, `cover_photo`, `instagram`, `twitter`, `facebook`, `website`, `is_profile_public`, `show_email`, `first_name`, `last_name`, `phone`, `location`, `birthday`, `address`, `is_admin`, `created_at`, `updated_at`, `email_verified`, `two_fa_enabled`) VALUES
+(1, 'photomaster', 'john@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, 0, 0, 2, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-11-27 11:29:49', '2025-12-08 12:23:30', 0, 0),
+(2, 'naturelover', 'jane@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, 0, 0, 2, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-11-27 11:29:49', '2025-12-08 12:20:43', 0, 0),
+(3, 'streetphotographer', 'mike@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, 0, 0, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-11-27 11:29:49', '2025-12-08 12:23:30', 0, 0),
+(4, 'kim', 'royroyquimado@gmail.com', '$2y$10$t5ku73QwP7H9TzkMzJsZAOsvV5JDp9Hsf4NNELCfOHZ8nhhiirPtu', NULL, NULL, NULL, 0, 0, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-11-27 01:44:37', '2025-12-08 11:26:47', 0, 0),
+(5, 'villaneza11', 'angeliedelacruzdingding@gmail.com', '$2y$10$W57wPZHVwvMGV5dGR0gowecbCFAdE7vpCrSxQh0915JZ2IoMjZx7.', NULL, NULL, NULL, 0, 0, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-11-27 01:57:47', '2025-12-08 11:26:47', 0, 0),
+(6, 'Ren', 'villegascarenetol@gmail.com', '$2y$10$XqsMS/k24.7FVsY4Wh1H4.t4oKD.eFiJFoYDbHrcOsa7Thtbo6hwq', NULL, NULL, NULL, 0, 0, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-11-27 01:59:39', '2025-12-08 11:26:47', 0, 0),
+(7, 'Ydzz', 'yayenydrian@gmail.com', '$2y$10$OCK36NVMd4htMEzxPTsLH.7ASy.VSwMGC.ysexToiJyHlksuvX.4C', 'pogi', 'profile_7_1765181232.jpg', 'profile_7_1765181232.jpg', 1, 0, 1, 'cover_7_1765184088.jpg', NULL, NULL, NULL, NULL, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-11-27 02:24:29', '2025-12-08 12:42:58', 0, 0),
+(8, 'ratfucker', 'ratfucker@gmail.com', '$2y$10$ahOl2uAmewe7sUdo52Uw4.c2jo6yz2lJoY8K3IsH2jwnmLZUzyINi', NULL, NULL, NULL, 0, 0, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-12-03 18:29:50', '2025-12-08 12:24:14', 0, 0),
+(9, 'admin', 'admin@lenscraft.com', '$2y$10$nbMeIoq0IkUNeVOcTD.VFOfBiJLuyBsoW6FxAFN1MHuwYyN3AIcFK', NULL, NULL, NULL, 0, 1, 0, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-12-08 20:25:23', '2025-12-08 12:42:58', 0, 0),
+(11, 'johndoe', 'nccrisis12@gmail.com', '$2y$10$u816fRm6LfV/W5fr0WMiQua1NHCVQkwD7qTimPvFwcS5KGUTYcSV6', NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 1, 0, 'john', 'doe', '09461478420', NULL, '2002-05-09', 'Puerto Princesa City, Palawan', 0, '2025-12-09 15:50:33', '2025-12-09 07:51:54', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -374,7 +427,18 @@ INSERT INTO `user_logs` (`id`, `user_id`, `admin_id`, `action_type`, `action_des
 (83, 9, NULL, 'logout', 'User \'admin\' logged out', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', NULL, NULL, 'success', '2025-12-08 12:42:59'),
 (84, 7, NULL, 'login', 'User \'Ydzz\' logged in successfully', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'users', 7, 'success', '2025-12-08 12:43:08'),
 (85, 7, NULL, 'logout', 'User \'Ydzz\' logged out', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', NULL, NULL, 'success', '2025-12-08 12:56:24'),
-(86, NULL, 1, 'admin_login', 'Admin \'admin\' logged in successfully', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'admins', 1, 'success', '2025-12-08 12:57:50');
+(86, NULL, 1, 'admin_login', 'Admin \'admin\' logged in successfully', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'admins', 1, 'success', '2025-12-08 12:57:50'),
+(87, NULL, 1, 'admin_login', 'Admin \'admin\' logged in successfully', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'admins', 1, 'success', '2025-12-09 06:58:30'),
+(88, 7, NULL, 'login', 'User \'Ydzz\' logged in successfully', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'users', 7, 'success', '2025-12-09 07:00:31'),
+(89, 7, NULL, 'logout', 'User \'Ydzz\' logged out', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', NULL, NULL, 'success', '2025-12-09 07:00:55'),
+(90, NULL, NULL, 'register', 'New user registered: \'johndoe\' (nccrisis12@gmail.com)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'users', 10, 'success', '2025-12-09 07:14:33'),
+(91, NULL, NULL, 'login', 'User \'johndoe\' logged in successfully', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'users', 10, 'success', '2025-12-09 07:14:50'),
+(92, NULL, NULL, 'logout', 'User \'johndoe\' logged out', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', NULL, NULL, 'success', '2025-12-09 07:48:43'),
+(93, NULL, 1, 'admin_login', 'Admin \'admin\' logged in successfully', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'admins', 1, 'success', '2025-12-09 07:48:55'),
+(94, NULL, 1, 'admin_delete_user', 'Admin deleted user \'johndoe\' (nccrisis12@gmail.com) - ID: 10', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'users', 10, 'success', '2025-12-09 07:49:03'),
+(95, 11, NULL, 'register', 'New user registered: \'johndoe\' (nccrisis12@gmail.com)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'users', 11, 'success', '2025-12-09 07:50:33'),
+(96, 11, NULL, 'login', 'User \'johndoe\' logged in successfully', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'users', 11, 'success', '2025-12-09 07:52:12'),
+(97, 11, NULL, 'logout', 'User \'johndoe\' logged out', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', NULL, NULL, 'success', '2025-12-09 08:00:11');
 
 --
 -- Indexes for dumped tables
@@ -407,6 +471,15 @@ ALTER TABLE `contact_messages`
   ADD KEY `created_at_idx` (`created_at`);
 
 --
+-- Indexes for table `email_confirmations`
+--
+ALTER TABLE `email_confirmations`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `token` (`token`),
+  ADD KEY `idx_user_id` (`user_id`),
+  ADD KEY `idx_token` (`token`);
+
+--
 -- Indexes for table `follows`
 --
 ALTER TABLE `follows`
@@ -436,12 +509,28 @@ ALTER TABLE `notifications`
   ADD KEY `idx_user_unread` (`user_id`,`is_read`,`created_at`);
 
 --
+-- Indexes for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `token` (`token`),
+  ADD KEY `idx_user_id` (`user_id`),
+  ADD KEY `idx_token` (`token`);
+
+--
 -- Indexes for table `photos`
 --
 ALTER TABLE `photos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idx_photos_user_id` (`user_id`),
   ADD KEY `idx_photos_uploaded_at` (`uploaded_at`);
+
+--
+-- Indexes for table `two_factor_auth`
+--
+ALTER TABLE `two_factor_auth`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_user_id` (`user_id`);
 
 --
 -- Indexes for table `users`
@@ -487,6 +576,12 @@ ALTER TABLE `contact_messages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `email_confirmations`
+--
+ALTER TABLE `email_confirmations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `follows`
 --
 ALTER TABLE `follows`
@@ -505,22 +600,34 @@ ALTER TABLE `notifications`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `photos`
 --
 ALTER TABLE `photos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
+-- AUTO_INCREMENT for table `two_factor_auth`
+--
+ALTER TABLE `two_factor_auth`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `user_logs`
 --
 ALTER TABLE `user_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- Constraints for dumped tables
@@ -532,6 +639,12 @@ ALTER TABLE `user_logs`
 ALTER TABLE `comments`
   ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`photo_id`) REFERENCES `photos` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `email_confirmations`
+--
+ALTER TABLE `email_confirmations`
+  ADD CONSTRAINT `email_confirmations_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `follows`
@@ -554,10 +667,22 @@ ALTER TABLE `notifications`
   ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD CONSTRAINT `password_resets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `photos`
 --
 ALTER TABLE `photos`
   ADD CONSTRAINT `photos_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `two_factor_auth`
+--
+ALTER TABLE `two_factor_auth`
+  ADD CONSTRAINT `two_factor_auth_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `user_logs`
