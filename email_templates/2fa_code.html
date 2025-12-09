@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; }
+        .container { max-width: 600px; margin: 0 auto; background-color: white; padding: 30px; border-radius: 8px; }
+        .header { color: #667eea; font-size: 24px; font-weight: bold; margin-bottom: 20px; }
+        .content { color: #333; line-height: 1.6; }
+        .code-box { background: #f9f9f9; border: 2px dashed #667eea; padding: 20px; text-align: center; margin: 20px 0; }
+        .code { font-size: 36px; font-weight: bold; color: #667eea; letter-spacing: 5px; }
+        .footer { color: #999; font-size: 12px; margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">Your Login Code</div>
+        <div class="content">
+            <p>Hi {{user_name}},</p>
+            <p>Your two-factor authentication code for LensCraft Photography is:</p>
+            <div class="code-box">
+                <div class="code">{{2fa_code}}</div>
+            </div>
+            <p>This code will expire in 10 minutes.</p>
+            <p>If you didn't request this code, please ignore this email and your account will remain secure.</p>
+            <p>Best regards,<br>The LensCraft Team</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2025 LensCraft Photography. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

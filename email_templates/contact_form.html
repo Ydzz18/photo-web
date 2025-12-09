@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; }
+        .container { max-width: 600px; margin: 0 auto; background-color: white; padding: 30px; border-radius: 8px; }
+        .header { color: #667eea; font-size: 24px; font-weight: bold; margin-bottom: 20px; }
+        .content { color: #333; line-height: 1.6; }
+        .info-box { background: #f9f9f9; padding: 15px; border-left: 4px solid #667eea; margin: 15px 0; }
+        .footer { color: #999; font-size: 12px; margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">New Contact Form Submission</div>
+        <div class="content">
+            <div class="info-box">
+                <p><strong>From:</strong> {{visitor_name}}</p>
+                <p><strong>Email:</strong> {{visitor_email}}</p>
+                <p><strong>Subject:</strong> {{subject}}</p>
+            </div>
+            <p><strong>Message:</strong></p>
+            <p>{{message}}</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2025 LensCraft Photography. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

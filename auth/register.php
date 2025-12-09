@@ -4,6 +4,8 @@ session_start();
 // Include database connection
 require_once '../db_connect.php';
 require_once '../settings.php';
+require_once '../config/EmailService.php';
+require_once '../config/EmailConfirmationService.php';
 
 $settings = new SiteSettings();
 $site_name = $settings->get('site_name', 'LensCraft');
@@ -156,11 +158,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             } catch (Exception $e) {
                                 error_log("Logger error: " . $e->getMessage());
                             }
+
+                            // Send email confirmation
+                            try {
+                                $emailService = new EmailService();
+                                $confirmService = new EmailConfirmationService($pdo);
+                                
+                                // Generate confirmation token
+                                $token = $confirmService->generateToken($user_id);
+                                
+                                // Build confirmation link
+                                $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
+                                $host = $_SERVER['HTTP_HOST'];
+                                $confirmation_link = $protocol . $host . '/confirm-email.php?token=' . $token;
+                                
+                                // Send email
+                                if ($emailService->sendEmailConfirmation($email, $step1_data['first_name'], $confirmation_link)) {
+                                    $_SESSION['success'] = "Registration successful! Please check your email to confirm your account.";
+                                } else {
+                                    $_SESSION['success'] = "Registration successful! Please check your email to confirm your account.";
+                                    error_log("Failed to send confirmation email for user: " . $user_id);
+                                }
+                            } catch (Exception $e) {
+                                error_log("Email confirmation error: " . $e->getMessage());
+                                $_SESSION['success'] = "Registration successful! Please check your email to confirm your account.";
+                            }
                             
-                            $_SESSION['success'] = "Registration successful! Welcome to " . htmlspecialchars($site_name) . ".";
-                            
-                            // Redirect to home page
-                            header("Location: ../home.php");
+                            // Redirect to login page
+                            header("Location: login.php");
                             exit();
                         } else {
                             $errors[] = "Registration failed. Please try again.";
