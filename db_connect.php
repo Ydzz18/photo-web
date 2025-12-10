@@ -22,12 +22,6 @@ $dbname = 'photography_website';         // Database name
 $db_username = 'root';                  // MySQL username
 $db_password = '';                      // MySQL password
 
-// Production server example (commented):
-// $host = 'db.example.com';
-// $dbname = 'photography_website';
-// $db_username = 'photo_user';
-// $db_password = 'strong_password_here';
-
 // ============================================================================
 // DATABASE CONNECTION FUNCTION
 // ============================================================================
