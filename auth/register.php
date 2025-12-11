@@ -168,9 +168,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 $token = $confirmService->generateToken($user_id);
                                 
                                 // Build confirmation link
-                                $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
-                                $host = $_SERVER['HTTP_HOST'];
-                                $confirmation_link = $protocol . $host . '/confirm-email.php?token=' . $token;
+                                $confirmation_link = 'https://lenscraft.fwh.is/photo-web/confirm-email.php?token=' . $token;
                                 
                                 // Send email
                                 if ($emailService->sendEmailConfirmation($email, $step1_data['first_name'], $confirmation_link)) {

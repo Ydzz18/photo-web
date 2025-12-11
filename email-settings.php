@@ -47,9 +47,7 @@ try {
                 $token = $confirmService->generateToken($user_id);
                 
                 // Build link
-                $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
-                $host = $_SERVER['HTTP_HOST'];
-                $confirmation_link = $protocol . $host . '/confirm-email.php?token=' . $token;
+                $confirmation_link = 'https://lenscraft.fwh.is/photo-web/confirm-email.php?token=' . $token;
                 
                 // Send email
                 if ($emailService->sendEmailConfirmation($user['email'], $_SESSION['username'], $confirmation_link)) {
